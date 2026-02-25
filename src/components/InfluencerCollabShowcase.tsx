@@ -1,13 +1,18 @@
 import { motion, useInView } from "framer-motion";
-import { useRef, useEffect, useState, useCallback } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Heart, MessageCircle, Share2, Bookmark, Eye, TrendingUp, MessageSquare } from "lucide-react";
+import influencerGirl from "@/assets/influencer-girl.png";
 
 const useAnimatedCounter = (target: number, duration: number, startWhen: boolean) => {
   const [count, setCount] = useState(0);
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    if (!startWhen) return;
+    if (!startWhen) {
+      setCount(0);
+      setDone(false);
+      return;
+    }
     let start = 0;
     const step = target / (duration / 16);
     const timer = setInterval(() => {
@@ -34,15 +39,15 @@ const comments = [
 
 const InfluencerCollabShowcase = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-50px" });
+  // once: false so it resets when scrolling away
+  const isInView = useInView(containerRef, { once: false, margin: "-50px" });
 
-  // Cascading counters: views → engagement → comments → earnings
+  // Cascading counters
   const views = useAnimatedCounter(847200, 2000, isInView);
   const engagement = useAnimatedCounter(12, 1500, views.done);
   const commentsCount = useAnimatedCounter(3420, 1500, engagement.done);
   const earnings = useAnimatedCounter(12480, 2000, commentsCount.done);
 
-  // Likes tied to views progress
   const likesTarget = 24831;
   const likesApprox = isInView ? Math.floor((views.count / 847200) * likesTarget) : 0;
 
@@ -58,7 +63,7 @@ const InfluencerCollabShowcase = () => {
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-10"
         >
@@ -71,63 +76,87 @@ const InfluencerCollabShowcase = () => {
         {/* Main showcase grid */}
         <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center max-w-6xl mx-auto">
 
-          {/* LEFT: 3D Floating Influencer Card */}
+          {/* LEFT: 3D Floating Influencer Card with Girl */}
           <motion.div
             initial={{ opacity: 0, x: -60 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -60 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex justify-center"
-            style={{ perspective: "1000px" }}
+            style={{ perspective: "1200px" }}
           >
             <motion.div
               animate={isInView ? {
-                rotateY: [0, 8, -8, 0],
-                y: [0, -12, 0],
-              } : {}}
+                rotateY: [0, 12, -12, 0],
+                rotateX: [0, -5, 5, 0],
+                y: [0, -16, 0],
+              } : { rotateY: 0, rotateX: 0, y: 0 }}
               transition={{
                 rotateY: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+                rotateX: { duration: 8, repeat: Infinity, ease: "easeInOut" },
                 y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
               }}
-              className="relative w-[260px] md:w-[300px]"
+              className="relative w-[280px] md:w-[320px]"
               style={{ transformStyle: "preserve-3d" }}
             >
               {/* Animated glow border */}
-              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-primary via-accent to-primary opacity-60 blur-md animate-pulse" />
+              <motion.div
+                animate={{ opacity: [0.4, 0.8, 0.4] }}
+                transition={{ duration: 3, repeat: Infinity }}
+                className="absolute -inset-1.5 rounded-2xl bg-gradient-to-br from-primary via-accent to-primary blur-md"
+              />
 
               {/* Card */}
               <div className="relative bg-card border border-border/50 rounded-2xl overflow-hidden">
-                {/* Image area */}
-                <div className="h-[280px] md:h-[340px] bg-gradient-to-br from-primary/20 via-accent/15 to-primary/10 flex items-center justify-center relative">
-                  <div className="text-6xl">📸</div>
+                {/* Girl image with 3D parallax movement */}
+                <div className="h-[320px] md:h-[380px] relative overflow-hidden bg-gradient-to-br from-primary/20 via-accent/20 to-primary/10">
+                  <motion.img
+                    src={influencerGirl}
+                    alt="Influencer"
+                    className="w-full h-full object-cover object-top"
+                    animate={isInView ? {
+                      scale: [1, 1.05, 1],
+                      x: [0, 5, -5, 0],
+                      y: [0, -8, 0],
+                    } : { scale: 1, x: 0, y: 0 }}
+                    transition={{
+                      scale: { duration: 5, repeat: Infinity, ease: "easeInOut" },
+                      x: { duration: 7, repeat: Infinity, ease: "easeInOut" },
+                      y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+                    }}
+                  />
 
                   {/* Recording indicator */}
                   <motion.div
-                    animate={{ opacity: [1, 0.5, 1] }}
+                    animate={isInView ? { opacity: [1, 0.5, 1] } : { opacity: 0 }}
                     transition={{ duration: 1.5, repeat: Infinity }}
                     className="absolute top-3 left-3 flex items-center gap-2 bg-destructive/90 text-destructive-foreground px-3 py-1 rounded-full text-[10px] font-semibold"
                   >
-                    <div className="w-1.5 h-1.5 rounded-full bg-destructive-foreground" />
+                    <motion.div
+                      animate={{ scale: [1, 1.4, 1] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                      className="w-1.5 h-1.5 rounded-full bg-destructive-foreground"
+                    />
                     REC
                   </motion.div>
 
-                  {/* Floating emojis */}
-                  {["❤️", "🔥", "✨"].map((emoji, i) => (
+                  {/* Floating emojis rising from the girl */}
+                  {["❤️", "🔥", "✨", "💜", "🎯"].map((emoji, i) => (
                     <motion.span
                       key={i}
                       className="absolute text-xl"
-                      animate={{
-                        y: [-20, -70],
-                        x: [0, (i - 1) * 25],
+                      animate={isInView ? {
+                        y: [-10, -80],
+                        x: [0, (i - 2) * 20],
                         opacity: [0, 1, 0],
-                        scale: [0.5, 1.2, 0.8],
-                      }}
+                        scale: [0.5, 1.3, 0.7],
+                      } : { opacity: 0 }}
                       transition={{
                         duration: 2.5,
                         repeat: Infinity,
-                        delay: i * 0.8,
+                        delay: i * 0.7,
                         ease: "easeOut",
                       }}
-                      style={{ bottom: "30%", left: `${30 + i * 20}%` }}
+                      style={{ bottom: "25%", left: `${15 + i * 17}%` }}
                     >
                       {emoji}
                     </motion.span>
@@ -136,9 +165,9 @@ const InfluencerCollabShowcase = () => {
 
                 {/* Brand overlay tag */}
                 <motion.div
-                  animate={{ scale: [1, 1.03, 1] }}
+                  animate={isInView ? { scale: [1, 1.04, 1] } : { scale: 1 }}
                   transition={{ duration: 2, repeat: Infinity }}
-                  className="absolute bottom-[80px] left-1/2 -translate-x-1/2 bg-background/95 backdrop-blur-sm px-4 py-1.5 rounded-full border border-border/50"
+                  className="absolute bottom-[75px] left-1/2 -translate-x-1/2 bg-background/95 backdrop-blur-sm px-4 py-1.5 rounded-full border border-border/50"
                 >
                   <span className="text-xs font-bold text-primary">💄 @LuxuryBrand</span>
                 </motion.div>
@@ -162,11 +191,11 @@ const InfluencerCollabShowcase = () => {
           {/* RIGHT: Metrics + Social Post UI */}
           <motion.div
             initial={{ opacity: 0, x: 60 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 60 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             className="flex flex-col gap-4"
           >
-            {/* Metrics row — cascading counters */}
+            {/* Metrics row */}
             <div className="grid grid-cols-3 gap-3">
               {[
                 { icon: Eye, label: "Views", count: views.count, active: isInView, suffix: "" },
@@ -176,7 +205,7 @@ const InfluencerCollabShowcase = () => {
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 30 }}
-                  animate={metric.active ? { opacity: 1, y: 0 } : {}}
+                  animate={metric.active ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                   transition={{ delay: 0.1 * i, duration: 0.5 }}
                   className="glass-card p-3 text-center"
                 >
@@ -192,13 +221,15 @@ const InfluencerCollabShowcase = () => {
             {/* Instagram-style post mockup */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
               transition={{ delay: 0.6, duration: 0.7 }}
               className="glass-card overflow-hidden"
             >
               <div className="flex items-center gap-3 p-3 border-b border-border/30">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent p-0.5">
-                  <div className="w-full h-full rounded-full bg-card" />
+                  <div className="w-full h-full rounded-full bg-card overflow-hidden">
+                    <img src={influencerGirl} alt="" className="w-full h-full object-cover" />
+                  </div>
                 </div>
                 <div>
                   <p className="text-xs font-semibold text-foreground">influencer_bella <span className="text-primary">✓</span></p>
@@ -206,14 +237,14 @@ const InfluencerCollabShowcase = () => {
                 </div>
               </div>
 
-              <div className="h-36 bg-gradient-to-br from-primary/10 via-accent/10 to-primary/5 flex items-center justify-center overflow-hidden">
-                <motion.span
-                  animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
-                  transition={{ duration: 2.5, repeat: Infinity }}
-                  className="text-4xl"
-                >
-                  📸✨
-                </motion.span>
+              <div className="h-36 bg-gradient-to-br from-primary/10 via-accent/10 to-primary/5 flex items-center justify-center overflow-hidden relative">
+                <motion.img
+                  src={influencerGirl}
+                  alt="Post"
+                  className="w-full h-full object-cover"
+                  animate={isInView ? { scale: [1, 1.08, 1] } : { scale: 1 }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                />
               </div>
 
               <div className="p-3">
@@ -235,13 +266,13 @@ const InfluencerCollabShowcase = () => {
               </div>
             </motion.div>
 
-            {/* Comment bubbles — appear as comments count rises */}
+            {/* Comment bubbles */}
             <div className="flex flex-wrap gap-2">
               {comments.map((comment, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, scale: 0, y: 15 }}
-                  animate={commentsCount.count > (i + 1) * 800 ? { opacity: 1, scale: 1, y: 0 } : {}}
+                  animate={commentsCount.count > (i + 1) * 800 ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0, y: 15 }}
                   transition={{ duration: 0.4, type: "spring" }}
                   className="glass-card px-3 py-1.5 text-[10px]"
                 >
@@ -251,10 +282,10 @@ const InfluencerCollabShowcase = () => {
               ))}
             </div>
 
-            {/* Revenue display — appears last */}
+            {/* Revenue display */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
-              animate={commentsCount.done ? { opacity: 1, scale: 1 } : {}}
+              animate={commentsCount.done ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
               transition={{ duration: 0.6, type: "spring" }}
               className="glass-card p-4 border-primary/30 glow-border text-center"
             >
