@@ -107,23 +107,57 @@ const InfluencerCollabShowcase = () => {
 
               {/* Card */}
               <div className="relative bg-card border border-border/50 rounded-2xl overflow-hidden">
-                {/* Girl image with 3D parallax movement */}
-                <div className="h-[320px] md:h-[380px] relative overflow-hidden bg-gradient-to-br from-primary/20 via-accent/20 to-primary/10">
+                {/* Girl image - full body visible, performing brand action */}
+                <div className="h-[340px] md:h-[400px] relative overflow-hidden bg-gradient-to-br from-primary/20 via-accent/20 to-primary/10 flex items-center justify-center">
                   <motion.img
                     src={influencerGirl}
-                    alt="Influencer"
-                    className="w-full h-full object-cover object-top"
+                    alt="Influencer promoting brand"
+                    className="h-full w-auto object-contain drop-shadow-[0_0_25px_hsl(var(--primary)/0.4)]"
                     animate={isInView ? {
-                      scale: [1, 1.05, 1],
-                      x: [0, 5, -5, 0],
-                      y: [0, -8, 0],
-                    } : { scale: 1, x: 0, y: 0 }}
+                      y: [0, -6, 0],
+                      rotate: [0, 1.5, -1.5, 0],
+                    } : { y: 0, rotate: 0 }}
                     transition={{
-                      scale: { duration: 5, repeat: Infinity, ease: "easeInOut" },
-                      x: { duration: 7, repeat: Infinity, ease: "easeInOut" },
-                      y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+                      y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+                      rotate: { duration: 5, repeat: Infinity, ease: "easeInOut" },
                     }}
                   />
+
+                  {/* Floating product she's "showing off" */}
+                  <motion.div
+                    className="absolute top-[15%] right-[10%] bg-background/90 backdrop-blur-sm px-3 py-2 rounded-xl border border-primary/40 shadow-lg"
+                    animate={isInView ? {
+                      y: [0, -8, 0],
+                      scale: [0.95, 1.05, 0.95],
+                      opacity: [0.8, 1, 0.8],
+                    } : { opacity: 0 }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                  >
+                    <span className="text-lg">💄</span>
+                    <p className="text-[8px] font-bold text-primary mt-0.5">NEW!</p>
+                  </motion.div>
+
+                  {/* "Tap to shop" action indicator */}
+                  <motion.div
+                    className="absolute bottom-[30%] right-[8%] bg-primary/90 text-primary-foreground px-3 py-1 rounded-full text-[9px] font-bold"
+                    animate={isInView ? {
+                      scale: [1, 1.1, 1],
+                      opacity: [0, 1, 1, 0],
+                    } : { opacity: 0 }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                  >
+                    🛍️ Tap to Shop
+                  </motion.div>
+
+                  {/* Swipe-up arrow animation */}
+                  <motion.div
+                    className="absolute bottom-[12%] left-1/2 -translate-x-1/2 flex flex-col items-center"
+                    animate={isInView ? { opacity: [0, 1, 0], y: [10, -5, -15] } : { opacity: 0 }}
+                    transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
+                  >
+                    <span className="text-foreground/70 text-[9px] font-semibold">Swipe Up</span>
+                    <span className="text-primary text-sm">↑</span>
+                  </motion.div>
 
                   {/* Recording indicator */}
                   <motion.div
@@ -237,14 +271,22 @@ const InfluencerCollabShowcase = () => {
                 </div>
               </div>
 
-              <div className="h-36 bg-gradient-to-br from-primary/10 via-accent/10 to-primary/5 flex items-center justify-center overflow-hidden relative">
+              <div className="h-44 bg-gradient-to-br from-primary/10 via-accent/10 to-primary/5 flex items-center justify-center overflow-hidden relative">
                 <motion.img
                   src={influencerGirl}
                   alt="Post"
-                  className="w-full h-full object-cover"
-                  animate={isInView ? { scale: [1, 1.08, 1] } : { scale: 1 }}
+                  className="h-full w-auto object-contain"
+                  animate={isInView ? { scale: [1, 1.05, 1] } : { scale: 1 }}
                   transition={{ duration: 3, repeat: Infinity }}
                 />
+                {/* Product tag overlay on the post */}
+                <motion.div
+                  className="absolute top-2 right-2 bg-background/80 backdrop-blur-sm px-2 py-1 rounded-lg border border-primary/30 text-[8px] font-bold text-primary"
+                  animate={isInView ? { opacity: [0, 1, 1, 0] } : { opacity: 0 }}
+                  transition={{ duration: 3, repeat: Infinity, delay: 1 }}
+                >
+                  💄 Shop Now
+                </motion.div>
               </div>
 
               <div className="p-3">
