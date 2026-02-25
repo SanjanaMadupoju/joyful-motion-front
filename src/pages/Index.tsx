@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { Zap, Shield, Users, Eye, Bot, CreditCard, BarChart3, ArrowRight, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroBg from "@/assets/hero-bg.jpg";
+import InfluencerCollabShowcase from "@/components/InfluencerCollabShowcase";
 
 const agents = [
   { icon: Bot, title: "Main Agent", desc: "Orchestrates campaigns from natural language briefs. Calculates plans, deploys escrow." },
@@ -150,6 +151,9 @@ const Index = () => {
           </motion.div>
         </motion.div>
       </section>
+
+      {/* ═══ INFLUENCER COLLAB SHOWCASE ═══ */}
+      <InfluencerCollabShowcase />
 
       {/* ═══ STATS — Cinematic reveal bar ═══ */}
       <section className="relative py-20 border-y border-border/30">
