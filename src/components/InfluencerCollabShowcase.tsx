@@ -53,19 +53,6 @@ const InfluencerCollabShowcase = () => {
 
   return (
     <section ref={containerRef} className="relative min-h-[100vh] flex flex-col justify-center py-12 md:py-16 overflow-hidden">
-      {/* Background video */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <iframe
-          src="https://player.vimeo.com/video/1008516986?muted=1&autoplay=1&autopause=0&controls=0&loop=1&background=1&app_id=122963"
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%]"
-          style={{ border: 'none' }}
-          allow="autoplay; fullscreen"
-          title="Background video"
-        />
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-background/80 backdrop-blur-[2px]" />
-      </div>
-
       {/* Background glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-primary/5 blur-[120px]" />
