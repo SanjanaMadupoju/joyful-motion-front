@@ -42,11 +42,11 @@ const InfluencerCollabShowcase = () => {
   // once: false so it resets when scrolling away
   const isInView = useInView(containerRef, { once: false, margin: "-50px" });
 
-  // Cascading counters
+  // All counters run in parallel
   const views = useAnimatedCounter(847200, 2000, isInView);
-  const engagement = useAnimatedCounter(12, 1500, views.done);
-  const commentsCount = useAnimatedCounter(3420, 1500, engagement.done);
-  const earnings = useAnimatedCounter(12480, 2000, commentsCount.done);
+  const engagement = useAnimatedCounter(12, 2000, isInView);
+  const commentsCount = useAnimatedCounter(3420, 2000, isInView);
+  const earnings = useAnimatedCounter(12480, 2000, isInView);
 
   const likesTarget = 24831;
   const likesApprox = isInView ? Math.floor((views.count / 847200) * likesTarget) : 0;
@@ -159,18 +159,14 @@ const InfluencerCollabShowcase = () => {
                     <span className="text-primary text-sm">↑</span>
                   </motion.div>
 
-                  {/* Recording indicator */}
+                  {/* Top-left: view count */}
                   <motion.div
-                    animate={isInView ? { opacity: [1, 0.5, 1] } : { opacity: 0 }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                    className="absolute top-3 left-3 flex items-center gap-2 bg-destructive/90 text-destructive-foreground px-3 py-1 rounded-full text-[10px] font-semibold"
+                    animate={isInView ? { opacity: [0, 1] } : { opacity: 0 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                    className="absolute top-3 left-3 flex items-center gap-1.5 bg-background/80 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-semibold text-foreground"
                   >
-                    <motion.div
-                      animate={{ scale: [1, 1.4, 1] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                      className="w-1.5 h-1.5 rounded-full bg-destructive-foreground"
-                    />
-                    REC
+                    <Eye className="w-3 h-3 text-primary" />
+                    {views.count.toLocaleString()}
                   </motion.div>
 
                   {/* Floating emojis rising from the girl */}
@@ -233,8 +229,8 @@ const InfluencerCollabShowcase = () => {
             <div className="grid grid-cols-3 gap-3">
               {[
                 { icon: Eye, label: "Views", count: views.count, active: isInView, suffix: "" },
-                { icon: TrendingUp, label: "Engagement", count: engagement.count, active: views.done, suffix: "%" },
-                { icon: MessageSquare, label: "Comments", count: commentsCount.count, active: engagement.done, suffix: "" },
+                { icon: TrendingUp, label: "Engagement", count: engagement.count, active: isInView, suffix: "%" },
+                { icon: MessageSquare, label: "Comments", count: commentsCount.count, active: isInView, suffix: "" },
               ].map((metric, i) => (
                 <motion.div
                   key={i}
@@ -271,17 +267,17 @@ const InfluencerCollabShowcase = () => {
                 </div>
               </div>
 
-              <div className="h-44 bg-gradient-to-br from-primary/10 via-accent/10 to-primary/5 flex items-center justify-center overflow-hidden relative">
-                <motion.img
-                  src={influencerGirl}
-                  alt="Post"
-                  className="h-full w-auto object-contain"
-                  animate={isInView ? { scale: [1, 1.05, 1] } : { scale: 1 }}
-                  transition={{ duration: 3, repeat: Infinity }}
+              <div className="h-44 relative overflow-hidden bg-black">
+                <iframe
+                  src="https://player.vimeo.com/video/1008516986?muted=1&autoplay=1&autopause=0&controls=0&loop=1&background=1&app_id=122963"
+                  className="absolute inset-0 w-full h-full"
+                  style={{ border: 'none' }}
+                  allow="autoplay; fullscreen"
+                  title="Influencer video"
                 />
                 {/* Product tag overlay on the post */}
                 <motion.div
-                  className="absolute top-2 right-2 bg-background/80 backdrop-blur-sm px-2 py-1 rounded-lg border border-primary/30 text-[8px] font-bold text-primary"
+                  className="absolute top-2 right-2 bg-background/80 backdrop-blur-sm px-2 py-1 rounded-lg border border-primary/30 text-[8px] font-bold text-primary z-10"
                   animate={isInView ? { opacity: [0, 1, 1, 0] } : { opacity: 0 }}
                   transition={{ duration: 3, repeat: Infinity, delay: 1 }}
                 >
@@ -327,7 +323,7 @@ const InfluencerCollabShowcase = () => {
             {/* Revenue display */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
-              animate={commentsCount.done ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
               transition={{ duration: 0.6, type: "spring" }}
               className="glass-card p-4 border-primary/30 glow-border text-center"
             >
