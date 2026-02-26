@@ -309,7 +309,7 @@ const Index = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.7, delay: i * 0.1, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }}
-                className="group border-t border-border/30 py-10 md:py-14 flex items-start md:items-center gap-6 md:gap-12"
+                className="group border-t border-border/30 py-10 md:py-14 flex items-start md:items-center gap-6 md:gap-12 pl-4 md:pl-12"
               >
                 <span className="font-heading text-5xl md:text-7xl font-bold text-primary/15 group-hover:text-primary/30 transition-colors duration-500 shrink-0">
                   {step.num}
