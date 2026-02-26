@@ -53,6 +53,19 @@ const InfluencerCollabShowcase = () => {
 
   return (
     <section ref={containerRef} className="relative min-h-[100vh] flex flex-col justify-center py-12 md:py-16 overflow-hidden">
+      {/* Background video */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <iframe
+          src="https://player.vimeo.com/video/1008516986?muted=1&autoplay=1&autopause=0&controls=0&loop=1&background=1&app_id=122963"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%]"
+          style={{ border: 'none' }}
+          allow="autoplay; fullscreen"
+          title="Background video"
+        />
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-[2px]" />
+      </div>
+
       {/* Background glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-primary/5 blur-[120px]" />
@@ -267,17 +280,17 @@ const InfluencerCollabShowcase = () => {
                 </div>
               </div>
 
-              <div className="h-44 relative overflow-hidden bg-black">
-                <iframe
-                  src="https://player.vimeo.com/video/1008516986?muted=1&autoplay=1&autopause=0&controls=0&loop=1&background=1&app_id=122963"
-                  className="absolute inset-0 w-full h-full"
-                  style={{ border: 'none' }}
-                  allow="autoplay; fullscreen"
-                  title="Influencer video"
+              <div className="h-44 bg-gradient-to-br from-primary/10 via-accent/10 to-primary/5 flex items-center justify-center overflow-hidden relative">
+                <motion.img
+                  src={influencerGirl}
+                  alt="Post"
+                  className="h-full w-auto object-contain"
+                  animate={isInView ? { scale: [1, 1.05, 1] } : { scale: 1 }}
+                  transition={{ duration: 3, repeat: Infinity }}
                 />
                 {/* Product tag overlay on the post */}
                 <motion.div
-                  className="absolute top-2 right-2 bg-background/80 backdrop-blur-sm px-2 py-1 rounded-lg border border-primary/30 text-[8px] font-bold text-primary z-10"
+                  className="absolute top-2 right-2 bg-background/80 backdrop-blur-sm px-2 py-1 rounded-lg border border-primary/30 text-[8px] font-bold text-primary"
                   animate={isInView ? { opacity: [0, 1, 1, 0] } : { opacity: 0 }}
                   transition={{ duration: 3, repeat: Infinity, delay: 1 }}
                 >
