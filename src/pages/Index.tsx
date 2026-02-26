@@ -152,55 +152,32 @@ const Index = () => {
         </motion.div>
       </section>
 
-      {/* ═══ INFLUENCER COLLAB SHOWCASE ═══ */}
-      <InfluencerCollabShowcase />
-
-      {/* ═══ STATS — Cinematic reveal bar ═══ */}
-      <section className="relative py-20 border-y border-border/30">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4"
-          >
-            {[
-              { label: "AI Agents", value: "7" },
-              { label: "Cost / Tx", value: "< ₹0.02" },
-              { label: "Settlement", value: "< 1s" },
-              { label: "Human Touch", value: "Zero" },
-            ].map((stat, i) => (
-              <motion.div key={i} variants={fadeUp} custom={i} className="text-center">
-                <p className="text-4xl md:text-5xl font-heading font-bold text-primary glow-text">{stat.value}</p>
-                <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground mt-3">{stat.label}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ═══ ABOUT — Editorial text block with giant watermark ═══ */}
+      {/* ═══ ABOUT — Video on top + editorial text below ═══ */}
       <section className="relative py-32 overflow-hidden">
-        {/* Background video */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <iframe
-            src="https://player.vimeo.com/video/1008516986?muted=1&autoplay=1&autopause=0&controls=0&loop=1&background=1&app_id=122963"
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%]"
-            style={{ border: 'none' }}
-            allow="autoplay; fullscreen"
-            title="Background video"
-          />
-          {/* Dark overlay for readability */}
-          <div className="absolute inset-0 bg-background/80 backdrop-blur-[2px]" />
-        </div>
-
         {/* Giant background letter */}
         <div className="absolute top-1/2 -translate-y-1/2 -left-20 pointer-events-none select-none">
           <span className="font-heading text-[40vw] font-bold text-foreground/[0.02] leading-none">P</span>
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
+          {/* Video on top */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+            className="mb-16 rounded-2xl overflow-hidden border border-border/30 shadow-2xl shadow-primary/5 aspect-video max-w-4xl mx-auto"
+          >
+            <iframe
+              src="https://player.vimeo.com/video/1008516986?muted=1&autoplay=1&autopause=0&controls=0&loop=1&background=1&app_id=122963"
+              className="w-full h-full"
+              style={{ border: 'none' }}
+              allow="autoplay; fullscreen"
+              title="ShadowPulse Network"
+            />
+          </motion.div>
+
+          {/* Content below */}
           <div className="max-w-3xl ml-auto">
             <motion.div
               initial="hidden"
@@ -240,6 +217,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* ═══ INFLUENCER COLLAB SHOWCASE ═══ */}
+      <InfluencerCollabShowcase />
 
       {/* ═══ AGENTS — Grid with staggered reveals ═══ */}
       <section className="py-32 relative">
