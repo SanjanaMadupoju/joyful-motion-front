@@ -182,6 +182,19 @@ const Index = () => {
 
       {/* ═══ ABOUT — Editorial text block with giant watermark ═══ */}
       <section className="relative py-32 overflow-hidden">
+        {/* Background video */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <iframe
+            src="https://player.vimeo.com/video/1008516986?muted=1&autoplay=1&autopause=0&controls=0&loop=1&background=1&app_id=122963"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%]"
+            style={{ border: 'none' }}
+            allow="autoplay; fullscreen"
+            title="Background video"
+          />
+          {/* Dark overlay for readability */}
+          <div className="absolute inset-0 bg-background/80 backdrop-blur-[2px]" />
+        </div>
+
         {/* Giant background letter */}
         <div className="absolute top-1/2 -translate-y-1/2 -left-20 pointer-events-none select-none">
           <span className="font-heading text-[40vw] font-bold text-foreground/[0.02] leading-none">P</span>
