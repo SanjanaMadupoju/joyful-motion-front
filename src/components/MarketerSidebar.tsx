@@ -24,7 +24,7 @@ export function MarketerSidebar() {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarContent>
+      <SidebarContent className="pt-4">
         <SidebarGroup>
           <SidebarGroupLabel>Marketer</SidebarGroupLabel>
           <SidebarGroupContent>
