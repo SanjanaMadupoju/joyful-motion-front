@@ -88,7 +88,7 @@ const MarketerChat = () => {
   };
 
   return (
-    <div className="flex flex-col h-[500px] glass-card rounded-2xl overflow-hidden">
+    <div className="flex flex-col h-[calc(100vh-10rem)] glass-card rounded-2xl overflow-hidden">
       {/* Chat area */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-2 py-4 space-y-4">
         {messages.length === 0 ? (

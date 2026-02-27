@@ -1,13 +1,23 @@
-import MarketerChat from "@/components/MarketerChat";
-import MarketerDashboard from "@/pages/MarketerDashboard";
+import { Outlet } from "react-router-dom";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { MarketerSidebar } from "@/components/MarketerSidebar";
 
 const MarketerLayout = () => {
   return (
-    <div className="min-h-screen bg-background pt-20">
-      <div className="container mx-auto px-4 space-y-8 pb-12">
-        <MarketerChat />
-        <MarketerDashboard embedded />
-      </div>
+    <div className="pt-16">
+      <SidebarProvider>
+        <div className="min-h-[calc(100vh-4rem)] flex w-full">
+          <MarketerSidebar />
+          <div className="flex-1 flex flex-col">
+            <header className="h-12 flex items-center border-b border-border/50">
+              <SidebarTrigger className="ml-2" />
+            </header>
+            <main className="flex-1 p-6 overflow-y-auto">
+              <Outlet />
+            </main>
+          </div>
+        </div>
+      </SidebarProvider>
     </div>
   );
 };
