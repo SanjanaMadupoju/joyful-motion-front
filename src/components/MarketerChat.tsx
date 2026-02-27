@@ -18,21 +18,6 @@ const suggestedPrompts = [
     label: "Launch a campaign",
     prompt: "I want to launch a new influencer campaign for my brand. Help me set it up.",
   },
-  {
-    icon: MapPin,
-    label: "Target a region",
-    prompt: "I want to target influencers in Bangalore for a local food brand campaign.",
-  },
-  {
-    icon: Calendar,
-    label: "Set timeline",
-    prompt: "I need a 7-day campaign for a fitness product launch. What details do you need?",
-  },
-  {
-    icon: Instagram,
-    label: "Instagram outreach",
-    prompt: "Help me draft an Instagram outreach message for influencers in my niche.",
-  },
 ];
 
 const MarketerChat = () => {
@@ -103,7 +88,7 @@ const MarketerChat = () => {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-8rem)]">
+    <div className="flex flex-col h-[500px] glass-card rounded-2xl overflow-hidden">
       {/* Chat area */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-2 py-4 space-y-4">
         {messages.length === 0 ? (
@@ -124,7 +109,7 @@ const MarketerChat = () => {
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-lg w-full">
+            <div className="grid grid-cols-1 gap-3 max-w-lg w-full">
               {suggestedPrompts.map((sp, i) => (
                 <motion.button
                   key={i}
