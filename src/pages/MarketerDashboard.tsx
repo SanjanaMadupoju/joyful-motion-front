@@ -34,10 +34,10 @@ const campaigns = [
   },
 ];
 
-const MarketerDashboard = () => {
+const MarketerDashboard = ({ embedded = false }: { embedded?: boolean }) => {
   return (
-    <div className="min-h-screen bg-background pt-20 pb-12">
-      <div className="container mx-auto px-4">
+    <div className={embedded ? "pb-12" : "min-h-screen bg-background pt-20 pb-12"}>
+      <div className={embedded ? "" : "container mx-auto px-4"}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
