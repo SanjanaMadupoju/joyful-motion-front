@@ -32,35 +32,37 @@ const MarketerChat = () => {
     }
   }, [messages, isTyping]);
 
-  const simulateResponse = (userMessage: string) => {
+  const sendMessage = async (userMessage: string) => {
     setIsTyping(true);
-    setTimeout(() => {
-      const lowerMsg = userMessage.toLowerCase();
-      let response = "";
-
-      if (lowerMsg.includes("launch") || lowerMsg.includes("campaign") || lowerMsg.includes("set up")) {
-        response = `Great! Let's set up your campaign. I'll need a few details:\n\n📌 **Brand Name** — What's your brand or product?\n📅 **Duration** — How many days should the campaign run?\n📍 **Target Area** — Which city or region should we target?\n🎯 **Niche** — What category? (Food, Fitness, Fashion, Tech, etc.)\n💰 **Budget** — What's your SURGE token budget?\n\nShare these details and I'll find the best influencers for you!`;
-      } else if (lowerMsg.includes("target") || lowerMsg.includes("bangalore") || lowerMsg.includes("region") || lowerMsg.includes("area")) {
-        response = `📍 Got it! I can target influencers in specific regions. Here's what I can do:\n\n• **Hyper-local targeting** — City-level (e.g., Bangalore, Mumbai, Chennai)\n• **Zone targeting** — South India, North India, etc.\n• **Radius targeting** — Within a specific km radius\n\nTell me the **city/region** and the **niche**, and I'll pull up matching influencers with their engagement stats.`;
-      } else if (lowerMsg.includes("7-day") || lowerMsg.includes("timeline") || lowerMsg.includes("days") || lowerMsg.includes("duration")) {
-        response = `📅 Perfect! Here's a suggested **7-day campaign timeline**:\n\n• **Day 1-2** — Influencer outreach & onboarding\n• **Day 3-5** — Content creation & posting window\n• **Day 6** — Engagement monitoring & boost\n• **Day 7** — Final reporting & SURGE disbursement\n\nWould you like me to proceed with this timeline? Also, please share your **brand name** and **target area** so I can start matching influencers.`;
-      } else if (lowerMsg.includes("instagram") || lowerMsg.includes("outreach") || lowerMsg.includes("message") || lowerMsg.includes("draft")) {
-        response = `📩 Here's a sample **Instagram outreach template**:\n\n---\n*"Hey {{influencer_name}}! 👋\n\nWe love your content on {{niche}}! We're launching a campaign for **{{brand_name}}** and think you'd be a perfect fit.\n\n📅 Duration: {{days}} days\n💰 Compensation: {{surge_amount}} SURGE tokens\n📍 Target: {{area}}\n\nInterested? Reply here and our AI agent will handle the rest!"*\n---\n\nWant me to customize this with your brand details?`;
-      } else {
-        response = `Thanks for the details! I'm processing your request. To create the best campaign, make sure I have:\n\n✅ Brand/product name\n✅ Campaign duration (days)\n✅ Target area/city\n✅ Influencer niche\n✅ Budget in SURGE tokens\n\nOnce confirmed, I'll match you with top influencers in the area and send outreach messages via Instagram. 🚀`;
-      }
-
+    try {
+      const res = await fetch("http://localhost:8000/sales/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userMessage }),
+      });
+      const data = await res.json();
       setMessages((prev) => [
         ...prev,
         {
           id: Date.now().toString(),
           role: "assistant",
-          content: response,
+          content: data.response ?? data.message ?? JSON.stringify(data),
           timestamp: new Date(),
         },
       ]);
+    } catch (err) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: Date.now().toString(),
+          role: "assistant",
+          content: "⚠️ Could not reach the backend. Make sure the server is running at localhost:8000.",
+          timestamp: new Date(),
+        },
+      ]);
+    } finally {
       setIsTyping(false);
-    }, 1500);
+    }
   };
 
   const handleSend = () => {
@@ -72,7 +74,7 @@ const MarketerChat = () => {
       timestamp: new Date(),
     };
     setMessages((prev) => [...prev, userMsg]);
-    simulateResponse(input.trim());
+    sendMessage(input.trim());
     setInput("");
   };
 
@@ -84,7 +86,7 @@ const MarketerChat = () => {
       timestamp: new Date(),
     };
     setMessages((prev) => [...prev, userMsg]);
-    simulateResponse(prompt);
+    sendMessage(prompt);
   };
 
   return (
