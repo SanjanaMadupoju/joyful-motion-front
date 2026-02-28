@@ -168,12 +168,13 @@ const Index = () => {
             transition={{ duration: 0.8 }}
             className="mb-16 rounded-2xl overflow-hidden border border-border/30 shadow-2xl shadow-primary/5 aspect-video max-w-4xl mx-auto"
           >
-            <iframe
-              src="https://player.vimeo.com/video/1008516986?muted=1&autoplay=1&autopause=0&controls=0&loop=1&background=1&app_id=122963"
-              className="w-full h-full"
-              style={{ border: 'none' }}
-              allow="autoplay; fullscreen"
-              title="ShadowPulse Network"
+            <video
+              src="https://www.talentrack.in/frontend/assets/videos/static/influencer_marketing.mp4"
+              className="w-full h-full object-cover"
+              autoPlay
+              muted
+              loop
+              playsInline
             />
           </motion.div>
 
