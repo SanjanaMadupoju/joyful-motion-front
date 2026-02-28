@@ -38,7 +38,11 @@ const MarketerChat = () => {
       const res = await fetch("http://localhost:8000/sales/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userMessage }),
+        // body: JSON.stringify({ message: userMessage }),
+        body: JSON.stringify({
+          session_id: "user-1234",   // temporary static ID
+          message: userMessage
+        }),
       });
       const data = await res.json();
       setMessages((prev) => [
@@ -46,7 +50,8 @@ const MarketerChat = () => {
         {
           id: Date.now().toString(),
           role: "assistant",
-          content: data.response ?? data.message ?? JSON.stringify(data),
+          // content: data.response ?? data.message ?? JSON.stringify(data),
+          content: data.response ?? data.message ?? data.reply ?? JSON.stringify(data.reply),
           timestamp: new Date(),
         },
       ]);
