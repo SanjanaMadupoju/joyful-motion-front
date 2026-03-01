@@ -9,6 +9,9 @@ import Login from "./pages/Login";
 import MarketerLayout from "./pages/MarketerLayout";
 import MarketerChat from "./components/MarketerChat";
 import MarketerDashboard from "./pages/MarketerDashboard";
+import MarketerDeals from "./pages/MarketerDeals";
+import MarketerCreative from "./pages/MarketerCreative";
+import MarketerInfluencers from "./pages/MarketerInfluencers";
 import InfluencerDashboard from "./pages/InfluencerDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
@@ -29,6 +32,9 @@ const App = () => (
             <Route index element={<Navigate to="chat" replace />} />
             <Route path="chat" element={<MarketerChat />} />
             <Route path="dashboard" element={<MarketerDashboard embedded />} />
+            <Route path="deals" element={<MarketerDeals />} />
+            <Route path="creative" element={<MarketerCreative />} />
+            <Route path="influencers" element={<MarketerInfluencers />} />
           </Route>
           <Route path="/influencer" element={<InfluencerDashboard />} />
           <Route path="/admin" element={<AdminDashboard />} />
